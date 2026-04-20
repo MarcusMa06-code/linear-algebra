@@ -126,6 +126,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const equivProperties = document.getElementById('equivProperties');
     const equivList = document.getElementById('equivList');
 
+    // Client-side Caching
+    const apiCache = new Map();
+
+    async function fetchWithCache(url, body) {
+        const cacheKey = `${url}:${JSON.stringify(body)}`;
+        if (apiCache.has(cacheKey)) {
+            return apiCache.get(cacheKey);
+        }
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            apiCache.set(cacheKey, data);
+        }
+        return { ok: response.ok, data };
+    }
+
     equivBtn.addEventListener('click', async () => {
         let matrixStr = "";
         if (isGridMode) {
@@ -142,19 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/equivalent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    matrix: matrixStr
-                })
-            });
+            const { ok, data } = await fetchWithCache('/api/equivalent', { matrix: matrixStr });
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (ok) {
                 showEquivalentStatements(data);
             } else {
                 showError(data.error || 'An error occurred');
@@ -209,8 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     buttons.forEach(btn => {
+        if (btn.id === 'equivBtn') return; // Handled separately
+
         btn.addEventListener('click', async () => {
             const operation = btn.dataset.op;
+            if (!operation) return;
+
             let matrixStr = "";
 
             if (isGridMode) {
@@ -227,20 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(true);
 
             try {
-                const response = await fetch('/api/process', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        matrix: matrixStr,
-                        operation: operation
-                    })
+                const { ok, data } = await fetchWithCache('/api/process', {
+                    matrix: matrixStr,
+                    operation: operation
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
+                if (ok) {
                     showResult(data.result);
                 } else {
                     showError(data.error || 'An error occurred');
