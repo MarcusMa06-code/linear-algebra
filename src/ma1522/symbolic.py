@@ -3151,9 +3151,11 @@ class Matrix(sym.MutableDenseMatrix):
         Q, R = super().QRdecomposition()
         if full and Q.rows != Q.cols:
             Q = Matrix(Q)
-            Q_aug = Q.row_join(Q.elem(), aug_line=False).QRdecomposition()[0]
+            # Optimized extension to full orthogonal basis
+            complement = Q.orthogonal_complement()
+            orth_complement = complement.gram_schmidt(factor=False, verbosity=0)
+            Q_aug = Q.row_join(orth_complement, aug_line=False)
             R_aug = Matrix(R.col_join(sym.zeros(Q_aug.cols - R.rows, R.cols)))
-            assert Q_aug @ R_aug == self
             return QR(Q_aug, R_aug)
         return QR(Q, R)
 

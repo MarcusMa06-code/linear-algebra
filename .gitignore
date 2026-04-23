@@ -16,3 +16,6 @@ site/
 # Generated coverage reports
 htmlcov/
 .coverage/
+
+# macOS file
+.DS_Store
