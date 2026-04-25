@@ -28,16 +28,24 @@ This project builds upon their robust `ma1522` library to provide the underlying
 
 1.  Clone this repository.
 2.  Install the dependencies:
+    Use uv
     ```bash
+    uv sync
+    ```
+    or
+    ```bash
+    python -m venv venv
+    source ./.venv/bin/activate
     pip install -r requirements.txt
     ```
+
 
 ### Running the GUI
 
 1.  Start the local server:
     ```bash
     # From the project root directory
-    export PYTHONPATH=$PYTHONPATH:$(pwd)/src && python3 -m uvicorn src.gui.app:app --reload
+    ./run.sh
     ```
 
 2.  Open your web browser and navigate to:
