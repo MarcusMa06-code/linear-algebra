@@ -28,14 +28,14 @@ This project builds upon their robust `ma1522` library to provide the underlying
 
 1.  Clone this repository.
 2.  Install the dependencies:
-    Use uv
+    Using **uv** (Recommended):
     ```bash
     uv sync
     ```
-    or
+    Alternatively, using **pip**:
     ```bash
-    python -m venv venv
-    source ./.venv/bin/activate
+    python -m venv .venv
+    source .venv/bin/activate
     pip install -r requirements.txt
     ```
 
