@@ -128,11 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Client-side Caching
     const apiCache = new Map();
+    apiCache.clear(); // Ensure clean state on reload
 
     async function fetchWithCache(url, body) {
         const cacheKey = `${url}:${JSON.stringify(body)}`;
         if (apiCache.has(cacheKey)) {
-            return apiCache.get(cacheKey);
+            const cached = apiCache.get(cacheKey);
+            if (cached && typeof cached === 'object' && 'ok' in cached) {
+                console.log(`Serving from cache: ${cacheKey}`);
+                return JSON.parse(JSON.stringify(cached));
+            }
+            apiCache.delete(cacheKey); // Clear corrupted cache
         }
 
         const response = await fetch(url, {
@@ -144,10 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const data = await response.json();
+        const result = { ok: response.ok, data };
         if (response.ok) {
-            apiCache.set(cacheKey, data);
+            console.log(`Caching result for ${cacheKey}`);
+            apiCache.set(cacheKey, result);
         }
-        return { ok: response.ok, data };
+        return result;
     }
 
     equivBtn.addEventListener('click', async () => {

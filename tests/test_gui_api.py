@@ -48,11 +48,35 @@ def test_latex_input():
     assert "result" in data
     assert "1" in data["result"]
 
+def test_repeated_calls():
+    # Simulate repeated calls to check consistency (backend side)
+    for _ in range(3):
+        response = client.post(
+            "/api/process",
+            json={"matrix": "[[1, 2], [3, 4]]", "operation": "rref"}
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "result" in data
+
+def test_api_equivalent_repeated():
+    for _ in range(3):
+        response = client.post(
+            "/api/equivalent",
+            json={"matrix": "[[1, 0], [0, 1]]"}
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "category" in data
+        assert "properties" in data
+
 if __name__ == "__main__":
     try:
         test_rref()
         test_eigenvals()
         test_latex_input()
+        test_repeated_calls()
+        test_api_equivalent_repeated()
         print("All tests passed!")
     except AssertionError as e:
         print(f"Assertion failed: {e}")

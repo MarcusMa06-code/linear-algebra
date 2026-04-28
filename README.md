@@ -14,7 +14,7 @@ This project provides a user-friendly graphical interface for performing symboli
 
 **Original Library & Algorithms**: [YeeShin504](https://github.com/YeeShin504) and contributors.
 This project builds upon their robust `ma1522` library to provide the underlying mathematical computations.
-I would also like to thank [@DenseLance](https://github.com/DenseLance) for his contributions.
+Gratitude is also extended to [@DenseLance](https://github.com/DenseLance) for their contributions.
 
 ## GUI Features
 
@@ -79,51 +79,3 @@ I would also like to thank [@DenseLance](https://github.com/DenseLance) for his 
 2.  **Select an Operation**: Click any button in the control panel (e.g., "RREF", "Eigenvalues", "SVD").
 3.  **View Results**: The result will appear below in formatted LaTeX.
 4.  **Check Properties**: Click "Show Equivalent Statements" to see a categorized list of the matrix's properties.
-
-## Library Usage
-
-```python
-# Create Matrix objects
-from ma1522.symbolic import Matrix
-A = Matrix([[1, 2, 3],
-            [4, 5, 5],
-            [7, 8, 9]])
-
-b = Matrix([[1], 
-            [2], 
-            [3]])
-
-# Join matrices along the columns via `row_join`. 
-augmented_matrix = A.aug_line().row_join(b)
-
-# `aug_line` adds a visual line that can be seen using `display`
-# In Jupyter/IPython: display(augmented_matrix)
-
-# Solution to the matrix equation Ax = b can be found using `solve`.
-print(A.solve(rhs=b))
-
-# Alternatively, the full steps with LU Factorisation can be found using `ref` with the appropriate options.
-augmented_matrix.ref(verbosity=2)
-```
-
-Documentation of more functions can be found [here](https://yeeshin504.github.io/linear-algebra/api/symbolic).
-
-More usage examples can be found under [tutorials](https://yeeshin504.github.io/linear-algebra/tutorials/tutorial).
-
-Live demonstration of the library can be found [here](https://yeeshin504.github.io/linear-algebra/live/demo).
-
-### Offline Documentation
-
-An offline version of the documentation is available for download from the [Releases](https://github.com/YeeShin504/linear-algebra/releases) page.
-
-To use the offline documentation:
-
-1. Download `linear-algebra-docs-offline.zip` from the latest release
-2. Extract the ZIP to a folder
-3. Open `index.html` in your browser
-
-A quick reference guide is also available as a function in the library:
-```python
-from ma1522 import sympy_commands
-sympy_commands()
-```
