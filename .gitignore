@@ -6,16 +6,17 @@ dist/
 wheels/
 *.egg-info
 .coverage/
+.coverage
 
 # Virtual environments
 .venv
 
 # Generated docs
 site/
+.cache/
 
 # Generated coverage reports
 htmlcov/
-.coverage/
 
 # macOS file
 .DS_Store

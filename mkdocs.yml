@@ -1,10 +1,10 @@
 site_name: linear-algebra
 site_description: Python scripts for NUS MA1522 Linear Algebra for Computing
 site_author: Yee Shin Teng
-site_url: https://yeeshin504.github.io/linear-algebra
+site_url: https://yeeshin504.github.io/linear-algebra/
 repo_url: https://github.com/YeeShin504/linear-algebra
 repo_name: YeeShin504/linear-algebra
-watch: [mkdocs.yml, README.md]
+watch: [ mkdocs.yml, README.md ]
 copyright: Copyright &copy; 2025 Yee Shin Teng
 
 nav:
@@ -77,7 +77,7 @@ plugins:
   - mkdocs-jupyter:
       ignore_h1_titles: True
       # live notebooks to be processed using jupyterlite plugin
-      ignore: ["live/*.ipynb"]
+      ignore: [ "live/*.ipynb" ]
       execute: true
   - jupyterlite:
       notebook_patterns:
@@ -90,7 +90,7 @@ plugins:
       default_handler: python_xref
       handlers:
         python_xref:
-          paths: [src]
+          paths: [ src ]
           inventories:
             - https://docs.python.org/3/objects.inv
             - https://docs.sympy.org/latest/objects.inv
@@ -123,6 +123,8 @@ plugins:
             show_symbol_type_heading: true
             show_symbol_type_toc: true
             summary: true
+  - offline
+  - privacy
 
 markdown_extensions:
   - admonition
@@ -140,14 +142,15 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format:
 
+            !!python/name:pymdownx.superfences.fence_code_format 
   - toc:
       permalink: true
 
 extra_javascript:
   - assets/javascripts/mathjax.js
-  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js
   # - assets/javascripts/hljs-init.js
   # - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js
 
